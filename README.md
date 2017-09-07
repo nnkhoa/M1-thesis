@@ -2,9 +2,13 @@
 
 
 1. Introduction
+
 	a. ICTLab
+
 	b. Regional Climate Model(RegCM)
+
 	c. Problems/Limitations of RegCM
+
 	d. Organization of thesis
 
 
@@ -13,7 +17,9 @@
 
 
 3. Testing and Result
+
 	a. The test explain
+	
 	b. Result and Discussion
 
 
