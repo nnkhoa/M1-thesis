@@ -12,23 +12,36 @@
 	d. Organization of thesis
 
 
-2. Background Knowlegde
+2. Background
 	
 	a. General Parallelization
 
-	b. GPU Parallelization
+		* Introduction and History
 
+		* Properties
 
-3. Methodology(?)
+		* Type of Parallelization
+
+	b. High Performance Computing 
+
+		* Cluster Computing
+
+		* Grid Computing
+
+	c. Local Parallelism
+
+3. Methodology
 	
 	a. Profiling the Simulation
 
-	b. Determine data dependencies
+	b. Determine data dependencies (unsure)
+
+	c. OpenMP
 
 
 4. Testing and Result
 
-	a. The test explain
+	a. Test Setup: Hardware/Software/Data Set/Configuration
 	
 	b. Result and Discussion
 
