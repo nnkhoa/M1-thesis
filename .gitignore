@@ -6,3 +6,5 @@
 *.lot
 *.pdf
 *.toc
+.DS_Store
+*/.DS_Store
