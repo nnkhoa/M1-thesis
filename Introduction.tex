@@ -2,11 +2,11 @@
 
 \section{Context and Motivation}
 
-Climate models are representations of factors that have impacts on climate, described by mathematical equations based on the law of physics. Main factors that can affect the climate are the atmosphere, oceans, living creatures, land exterior, ice, and energy produced by the Sun. Together with other sophisticated elements such as cloud, rainfall, water evaporation, etc., these climate models are put into use in order to achieve various objectives such as studying the tendencies of climate systems or estimating future climate. Not only energy emitted from the sun, as mentioned above, is taken into consideration in the form of short-wave electromagnetic radiation, but also out-going long-wave infrared electromagnetic one. With both of these radations are taken into account, any changes that cause imbalance between the two will result in a change in temperature, thus changing the climate. \\
+Climate models are representations of factors that have impacts on climate, described by mathematical equations based on the law of physics. Main factors that can affect the climate are the atmosphere, oceans, living creatures, land exterior, ice, and energy produced by the Sun. Together with other sophisticated elements such as cloud, rainfall, water evaporation, etc., these climate models are put into use in order to achieve various objectives such as studying the tendencies of climate systems or estimating future climate. Not only incoming energy emitted from the sun, as mentioned above, is taken into consideration in the form of short-wave electromagnetic radiation, but also outgoing long-wave infrared electromagnetic one. With both of these radations are taken into account, any changes that cause imbalance between the two will result in a change in temperature, thus changing the climate. \\
 ~\\
 Climate models, with the way their data and computations are processed, have benefited greatly from exploiting parallelism, especially with vector processors and the recently extended Single Instruction Multiple Data parallel paradigm. However, most of the climate models today are computed in cluster-based computer with large, powerful microprocessors, which are unable to fully utilize parallelism to a greater extent. This is due to the fact that CPUs lack the necessary memory band-width to obtain such level of parallelism, no matter how powerful the CPU can be.\\
 ~\\
-University of Science and Technology of Hanoi (USTH) research lab REMOSAT, led by Assoc. Prof Ngo Duc Thanh, has been in urgent need for perfomance boost and computation time acceleration of the climate models running in the lab. In this context, the goal of the internship is to investigate possible usage of GPU in climate models simulation performed by the REMOSAT research lab to speed up its processing time.\\
+University of Science and Technology of Hanoi (USTH) research lab REMOSAT, led by Assoc. Prof Ngo Duc Thanh, has been in urgent need for perfomance boost and computation time acceleration of the climate models running in the lab, specifically, the Regional Climate Model system, or RegCM for short. In this context, the goal of the internship is to investigate possible usage of GPU in climate models simulation performed by the REMOSAT research lab to speed up its processing time.\\
 
 \section{Host Institution}
 
@@ -20,7 +20,11 @@ Regarding to these research activities, ICTLab is currently working on two main 
 
 \section{Regional Climate Model system(RegCM)}
 
-The Regional Climate Model system, also known as RegCM, 
+The Regional Climate Model system, also known as RegCM, unlike other global climate models, was developed using Fortran as a limited area model for the purpose of long term simulation in specific regions. RegCM is meant to be used as a public, open source software that is user-friendly and portable enough to be apply in any domains in the world. Being a community model, and is designed to be applied in a vast number of communities, RegCM has partaken in a large number of regional climate projects, and has been aiding various climate studies and future climate predictions. \\
+~\\
+Originally created by the National Center of Atmospheric Research(NCAR) back in 1989, it has now evolved over time after numerous of patches and a few major updates. As of the most recent release, RegCM4, the program contains many upgrades and new features compare to previous versions. Most noticably, RegCM has now improved on flexibility, portablity and user friendliness, and is now fully supported by the Earth Physics System, as the developers commented in the Documentation. \\
+~\\
+
 \section{Limitation of RegCM}
 
 \vspace*{1cm}
