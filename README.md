@@ -30,6 +30,10 @@
 
 	c. Local Parallelism
 
+		* Thread/Core parallelism
+
+		* Open Message Passing Interface
+
 3. Methodology
 	
 	a. Profiling the Simulation
