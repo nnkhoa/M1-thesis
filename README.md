@@ -15,23 +15,16 @@
 2. Background
 	
 	a. General Parallelization
-
-		* Introduction and History
-
-		* Properties
-
-		* Type of Parallelization
+		* Definition
+		* Motivation
+		* Limitation
 
 	b. High Performance Computing 
-
 		* Cluster Computing
-
 		* Grid Computing
 
 	c. Local Parallelism
-
 		* Thread/Core parallelism
-
 		* Open Message Passing Interface
 
 3. Methodology
