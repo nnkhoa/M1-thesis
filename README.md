@@ -3,44 +3,41 @@
 
 1. Introduction
 
-a. ICTLab
-
-b. Regional Climate Model(RegCM)
-
-c. Problems/Limitations of RegCM
-
-d. Organization of thesis
+* ICTLab
+* Regional Climate Model(RegCM)
+* Problems/Limitations of RegCM
+* Organization of thesis
 
 
 2. Background
 	
-a. General Parallelization
+* General Parallelization
 		
-* Definition
-* Motivation
-* Limitation
+	* Definition
+	* Motivation
+	* Limitation
 
-b. High Performance Computing 
+* High Performance Computing 
 		
-* Cluster Computing
-* Grid Computing
+	* Cluster Computing
+	* Grid Computing
 
-c. Local Parallelism
+* Local Parallelism
 		
-* Thread/Core parallelism
-* Open Message Passing Interface
+	* Thread/Core parallelism
+	* Open Message Passing Interface
 
 3. Methodology
 	
-a. Profiling the Simulation
-b. Determine data dependencies (unsure)
-c. OpenMP
+* Profiling the Simulation
+* Determine data dependencies (unsure)
+* OpenMP
 
 
 4. Testing and Result
 
-a. Test Setup: Hardware/Software/Data Set/Configuration	
-b. Result and Discussion
+* Test Setup: Hardware/Software/Data Set/Configuration	
+* Result and Discussion
 
 
 5. Conclusion
