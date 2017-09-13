@@ -15,15 +15,18 @@
 2. Background
 	
 	a. General Parallelization
+		
 		* Definition
 		* Motivation
 		* Limitation
 
 	b. High Performance Computing 
+		
 		* Cluster Computing
 		* Grid Computing
 
 	c. Local Parallelism
+		
 		* Thread/Core parallelism
 		* Open Message Passing Interface
 
