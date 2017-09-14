@@ -2,11 +2,34 @@
 
 \section{Parallel Computing}
 
+\subsection{Definition}
+
 As the name imply, parallel computing is about executing task simultaneously based on the given computer resource to find a solution to a complex computational problem, such as modeling and simulation. Unlike the traditional serial computation, where instructions are executed in succession one at a time, in parallelization, a problem are separated many different, disctint segments, each segment can be further decomposed into set of instructions. The distintion between these segments allows them to be performed on different processors in parallel fashion. The computation resource required for parallel computing, as stated previously, can be either a powerful computer with a multiple cores/threads CPU or a network of serveral computers, with or without dedicated GPUs. \\
+%Images represent serial and parallel computing
+
+\subsection{Motivation}
+
+The drive to utilize parallel computing is strongly related to real world problems, where many events, complementing each other, happen more or less simultaneously, however inside a chronological sequence. Because of how natural phenomena work and how complex they are, serial computing is not suited for heavy workload of modeling and simulation such events. Serialize computation is too time-consuming for this kind of tasks, as being only able to do one job at a time. \\
 ~\\
-The motivation behinds parallel computing is strongly related to real world problems, where many events, complementing each other, happen more or less simultaneously, however inside a chronological sequence. Because of how natural phenomena work and how complex they are, serial computing is not suited for heavy workload of modeling and simulation such events. Serialize computation is too time-consuming for this kind of tasks, as being only able to do one job at a time. Parallel computing, on the other hand, is clearly much more fitted for this line of work. By taking advantage of computers network, whether it is a local or remote one, tapping into parallel potential within modern computer hardwares(multi-core CPU, CUDA GPU) or even both of the above at the same time, parallelization provides the power needed to not only solving mathematical problems with high level of complexity that can be impossible to run on serial computing model, but also gaining better performance time, result in more computation tasks can be done, hence more efficient and profitable. \\
+Parallel computing, on the other hand, is clearly much more fitted for this line of work. By taking advantage of computers network, whether it is a local or remote one, tapping into parallel potential within modern computer hardwares(multi-core CPU, CUDA GPU) or even both of the above at the same time, parallelization provides the power needed to not only solving mathematical problems with high level of complexity that can be impossible to run on serial computing model, but also gaining better performance time, result in more computation tasks can be done, hence more efficient and profitable. \\
+
+
+\subsection{Flynn's taxonomy on parallel architecture}
+
+Introduced in 1966, Michael J. Flynn, the author, suggested that high-speed computer can be divided into 4 main categories, based on Instruction Stream and Data Stream. Stream, as Flynn explained (1966), "refers to sequence of data or instructions as seen by the machine during the execution of the program". Flynn clarified further that Instruction Stream and Data Stream serve as a convenient baseline to classify computer organization while preventing any confusion driven by the term "parallelism". \\
 ~\\
-Current Limitation
+%Some images to illustrate this
+The computer organization are classified as below:
+\begin{itemize}
+	\item Single Instruction Stream, Single Data Stream (SISD): Also known as serial (non-parallel) computation, this is the oldest type of computer, where the processing unit can only take one instruction stream and use one data stream as input at a time during a clock cycle.
+	\item Single Instruction Stream, Multiple Data Stream (SIMD): A popular parallel architecture (appears the most in GPU) where processing units take the same instruction stream during a clock cycle, but the data stream given to them are different from one another. An example of SIMD is image processing, where the processing unit was given one instruction stream to some(or even all) of their core/thread, handling many pixels (multiple data stream) at the same time.
+	\item Multiple Instruction Stream, Single Data Stream (MISD): As the opposite of SIMD, this parallel organization is about multiple processors each have its own instruction stream while being fed with a common data stream. However, this kind of architecture is very uncommon compares to the other three.
+	\item Multiple Instruction Stream, Multiple Data Stream (MIMD): The most common type of parallel computer, mostly in modern supercomputers, where every processing units can have a different instruction stream and a different data stream.
+\end{itemize}
+
+
+\subsection{Current Limitation}
+
 
 \section{High Performance Computing}
 
