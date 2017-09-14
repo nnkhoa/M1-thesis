@@ -24,11 +24,19 @@ The computer organization are classified as below:
 	\item Single Instruction Stream, Single Data Stream (SISD): Also known as serial (non-parallel) computation, this is the oldest type of computer, where the processing unit can only take one instruction stream and use one data stream as input at a time during a clock cycle.
 	\item Single Instruction Stream, Multiple Data Stream (SIMD): A popular parallel architecture (appears the most in GPU) where processing units take the same instruction stream during a clock cycle, but the data stream given to them are different from one another. An example of SIMD is image processing, where the processing unit was given one instruction stream to some(or even all) of their core/thread, handling many pixels (multiple data stream) at the same time.
 	\item Multiple Instruction Stream, Single Data Stream (MISD): As the opposite of SIMD, this parallel organization is about multiple processors each have its own instruction stream while being fed with a common data stream. However, this kind of architecture is very uncommon compares to the other three.
-	\item Multiple Instruction Stream, Multiple Data Stream (MIMD): The most common type of parallel computer, mostly in modern supercomputers, where every processing units can have a different instruction stream and a different data stream.
+	\item Multiple Instruction Stream, Multiple Data Stream (MIMD): By far the most common class of parallel computer, especially in modern supercomputers, where every processing units can have a different instruction stream and a different data stream. Different tasks can be handled by differnet processors, working on their own set of instructions and data. Because of this, task execution can be either synchronus or asynchronus, depending on the nature of the tasks.
 \end{itemize}
 
 
-\subsection{Current Limitation}
+\subsection{Amdahl's Law and Limitation of Parallelism}
+Amdahl's Law \\
+Introduce: What? Why? How?\\
+How is it impacting parallelism
+Complexity \\ 
+Design: data/instruction flow, Coding: optimization\\
+program complexity\\
+Resource Requirements \\
+Cpu, Gpu, computers network \\
 
 
 \section{High Performance Computing}
