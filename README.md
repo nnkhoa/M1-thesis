@@ -15,6 +15,7 @@
 			
 		* Definition
 		* Motivation
+		* Architecture (Flyn's taxonomy)
 		* Limitation
 
 	* High Performance Computing 
