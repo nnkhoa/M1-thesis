@@ -21,10 +21,10 @@ Introduced in 1966, Michael J. Flynn, the author, suggested that high-speed comp
 %Some images to illustrate this
 The computer organization are classified as below:
 \begin{itemize}
-	\item Single Instruction Stream, Single Data Stream (SISD): Also known as serial (non-parallel) computation, this is the oldest type of computer, where the processing unit can only take one instruction stream and use one data stream as input at a time during a clock cycle.
-	\item Single Instruction Stream, Multiple Data Stream (SIMD): A popular parallel architecture (appears the most in GPU) where processing units take the same instruction stream during a clock cycle, but the data stream given to them are different from one another. An example of SIMD is image processing, where the processing unit was given one instruction stream to some(or even all) of their core/thread, handling many pixels (multiple data stream) at the same time.
+	\item Single Instruction Stream, Single Data Stream (SISD): Also known as serial (non-parallel) computation, this is the oldest type of computer, in which the processing unit can only take one instruction stream and use one data stream as input at a time during a clock cycle.
+	\item Single Instruction Stream, Multiple Data Stream (SIMD): A popular parallel architecture (appears the most in GPU) that processing units take the same instruction stream during a clock cycle, but the data stream given to them are different from one another. An example of SIMD is image processing, where the processing unit was given one instruction stream to some(or even all) of their core/thread, handling many pixels (multiple data stream) at the same time.
 	\item Multiple Instruction Stream, Single Data Stream (MISD): As the opposite of SIMD, this parallel organization is about multiple processors each have its own instruction stream while being fed with a common data stream. However, this kind of architecture is very uncommon compares to the other three.
-	\item Multiple Instruction Stream, Multiple Data Stream (MIMD): By far the most common class of parallel computer, especially in modern supercomputers, where every processing units can have a different instruction stream and a different data stream. Different tasks can be handled by differnet processors, working on their own set of instructions and data. Because of this, task execution can be either synchronus or asynchronus, depending on the nature of the tasks.
+	\item Multiple Instruction Stream, Multiple Data Stream (MIMD): By far the most common class of parallel computer, especially in modern supercomputers, MIMD allows every processing units can have a different instruction stream and a different data stream. Different tasks can be handled by differnet processors, working on their own set of instructions and data. Because of this, task execution can be either synchronus or asynchronus, depending on the nature of the tasks.
 \end{itemize}
 
 
@@ -33,16 +33,18 @@ While parallelism can provide better computation time compares to serial computi
 \begin{equation}
 Speedup = \frac{1}{r_s + \frac{r_p}{N}} \\
 \end{equation}
-where r$_s$ stands for the serial portion of the code, the overhead that can't be paralleled. r$_p$ describes the parallel part of the program and $r_s + r_p = 1$. N illustrates the number of parallel processors. \\
+where r$_s$ stands for the serial portion of the code, the overhead that can't be paralleled. $r_p$ describes the parallel part of the program and $r_s + r_p = 1$. N illustrates the number of parallel processors. \\
 ~\\
 In general, this equation implies that the speedup of parallel computing of N processors, compares to serial computing, can never be N times, because of the nature of the overhead as mentioned earlier. More importantly, if N ever reaches infinity, the speedup will equal to $\frac{1}{r_s}$. This number represents the bottle-neck of parallelism and is independent from the number of processors, meaning that the speedup also depends a lot on the program itself, how much of the code can and can't be paralellize. \\
 
-\subsection{Limitation of Parallel Computing}
-Complexity \\ 
-Design: data/instruction flow, Coding: optimization\\
-program complexity\\
-Resource Requirements \\
-Cpu, Gpu, computers network \\
+\subsection{Drawbacks of Parallel Computing}
+Despite all of its advantages by exploiting the potential of computer resource, both multicore processors and computers network, Parallel Computation, like all things, is not perfect and has can be a double-edge sword. As stated in the previous sections, speedup gained from parallelism does not align with the total number of processors or parallel workflows used in running the program. Because bottle-neck factor comes from the program, it may be redundant to implement parallelism in some cases, where the performance gain might be insignificant, or even loses to serial computing. This is known as parallel slowdown. \\
+~\\
+Aside from the program's overhead produced by the serial portion of the code, other factors can affect slow down the computation time. Task scheduling plays a major role in this. In reality, for parallelism to function properly, the work needs to be divided and distributed to processors by the task scheduler, which will take time. The more the program has to be splitted, the more time it takes to for task scheduling to complete. Not to mention, more parallel tasks means that it will take more time to communicate between them. If the performance gain from parallel cannot justify these factors, a parallel slowdown is bounded to occur, thus rendering the parallelization useless. \\
+~\\
+How to implement parallelization is another drawback of this kind of computation. Generally, putting parallelism into practice is rather more complicated than people give it credit for. Not only does the programmer has to deal with the flow of instructions, he also has to take into account the data flow and avoid data dependencies, which agurably is the most problematic part of parallelism, where it is possible. Basically, data dependencies is when data needed from one instruction is related and depends on data of other instructions, thus making that part completely sequential and unparallelable. After successfully implemented parallelism, another challenge is to optimize the parallelization to yield the best possible performance compare to serial computing. \\
+~\\
+Another disadvantage of parallel computing that should be mentioned is the cost of computer resource. To effectively run paralleled softwares/programs, it usually requires a (or in some cases serveral) multicore CPU, which can be rather expensive, ranging from \$300 to \$1000 for a normal consumers multicore CPU. Higher grade CPU and system for High Perfomance Computing can cost thousands of dollar. Not only CPU can be costly but also dedicate GPUs and Memory as well. \\
 
 
 \section{High Performance Computing}
