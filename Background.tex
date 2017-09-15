@@ -28,10 +28,16 @@ The computer organization are classified as below:
 \end{itemize}
 
 
-\subsection{Amdahl's Law and Limitation of Parallelism}
-Amdahl's Law \\
-Introduce: What? Why? How?\\
-How is it impacting parallelism
+\subsection{Maximum performance boost by Parallelization(?)} 
+While parallelism can provide better computation time compares to serial computing, there is a limit to how much parallelization can boost performance. Published in 1967, Gene M. Amdahl's paper, "Validity of single processing approach to achieving large scale computing capabilities", stated that there is a boundary in which how parallelism can speed up execution time, given there are always sequential overhead that slow down the computation tine and can't be spedup by applying parallelism. To represent this remark about the speedup, Admdahl gave a the following fomular: \\
+\begin{equation}
+Speedup = \frac{1}{r_s + \frac{r_p}{N}} \\
+\end{equation}
+where r$_s$ stands for the serial portion of the code, the overhead that can't be paralleled. r$_p$ describes the parallel part of the program and $r_s + r_p = 1$. N illustrates the number of parallel processors. \\
+~\\
+In general, this equation implies that the speedup of parallel computing of N processors, compares to serial computing, can never be N times, because of the nature of the overhead as mentioned earlier. More importantly, if N ever reaches infinity, the speedup will equal to $\frac{1}{r_s}$. This number represents the bottle-neck of parallelism and is independent from the number of processors, meaning that the speedup also depends a lot on the program itself, how much of the code can and can't be paralellize. \\
+
+\subsection{Limitation of Parallel Computing}
 Complexity \\ 
 Design: data/instruction flow, Coding: optimization\\
 program complexity\\
