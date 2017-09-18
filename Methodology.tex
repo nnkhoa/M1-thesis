@@ -1,7 +1,11 @@
 \chapter{Methodology}
 
-Remind the goal of the internship is to investigate \\
-Organization of RegCM source code\\
+As stated in the previous chapter, the main purpose of the intership is to investigate possible utilization of GPU parallelism within the Regional Climate Model. In order to achieve this goal, the source code of RegCm is required for analyzing the software and modify it for the demand of the intership. Thankfully, RegCM is a open-source software, a term stands for softwares that are publicly accessible and anyone can share and/or revamp it. It is publicly available at: \url{http://gforge.ictp.it/gf/project/regcm/} . \\
+~\\
+Source Code organization (PLEASE FINISH THIS ASAP) \\
+~\\
+Analyzing the source code of the program will give a good view of what is inside the program, and potentially find out where it is suitable for GPU parallel computation so that it can be implemented in the future. To investigate spots in RegCM that are likely to be benifitted from GPU parallelism, profiling the software to locate what part of it takes the most computation time is the initial and crucial step. Next, data dependencies needs to be detected in order avoid paralleling those section and hurts the performance of the program, or potentially break it. Finally, CPU thread-level is used to run RegCM as a proof of concept to see if there are any improvement in performance. \\
+
 Profiling the simulation\\
 OpenMP\\
 Data dependencies\\
