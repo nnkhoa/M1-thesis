@@ -25,9 +25,7 @@
 		* Grid Computing
 
 	* Local Parallelism
-			
-		* Thread/Core parallelism
-		* Open Message Passing Interface
+
 
 3. Methodology
 	
