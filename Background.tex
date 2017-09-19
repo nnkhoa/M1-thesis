@@ -35,9 +35,29 @@ The computer organization are classified as below:
 \begin{itemize}
 	\item Single Instruction Stream, Single Data Stream (SISD): Also known as serial (non-parallel) computation, this is the oldest type of computer, in which the processing unit can only take one instruction stream and use one data stream as input at a time during a clock cycle.
 	%Image for each kind of architectures
+	\begin{figure}[H]
+	\includegraphics[width=5cm]{SISD.png}
+	\centering
+	\caption{Single Instruction Single Data architecture}
+	\end{figure}
 	\item Single Instruction Stream, Multiple Data Stream (SIMD): A popular parallel architecture (appears the most in GPU) that processing units take the same instruction stream during a clock cycle, but the data stream given to them are different from one another. An example of SIMD is image processing, where the processing unit was given one instruction stream to some(or even all) of their core/thread, handling many pixels (multiple data stream) at the same time.
+	\begin{figure}[H]
+	\includegraphics[width=5cm]{SIMD.png}
+	\centering
+	\caption{Single Instruction Multiple Data architecture}
+	\end{figure}
 	\item Multiple Instruction Stream, Single Data Stream (MISD): As the opposite of SIMD, this parallel organization is about multiple processors each have its own instruction stream while being fed with a common data stream. However, this kind of architecture is very uncommon compares to the other three.
+	\begin{figure}[H]
+	\includegraphics[width=5cm]{MISD.png}
+	\centering
+	\caption{Multiple Instruction Single Data architecture}
+	\end{figure}
 	\item Multiple Instruction Stream, Multiple Data Stream (MIMD): By far the most common class of parallel computer, especially in modern supercomputers, MIMD allows every processing units can have a different instruction stream and a different data stream. Different tasks can be handled by differnet processors, working on their own set of instructions and data. Because of this, task execution can be either synchronus or asynchronus, depending on the nature of the tasks.
+	\begin{figure}[H]
+	\includegraphics[width=5cm]{MIMD.png}
+	\centering
+	\caption{Multiple Instruction Multiple Data architecture}
+	\end{figure}
 \end{itemize}
 
 
