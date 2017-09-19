@@ -6,6 +6,13 @@
 
 As the name imply, parallel computing is about executing task simultaneously based on the given computer resource to find a solution to a complex computational problem, such as modeling and simulation. Unlike the traditional serial computation, where instructions are executed in succession one at a time, in parallelization, a problem are separated many different, disctint segments, each segment can be further decomposed into set of instructions. The distintion between these segments allows them to be performed on different processors in parallel fashion. The computation resource required for parallel computing, as stated previously, can be either a powerful computer with a multiple cores/threads CPU or a network of serveral computers, with or without dedicated GPUs. \\
 %Images represent serial and parallel computing
+~\\
+\begin{figure}[H]
+\includegraphics[width=7cm]{Parallel.png}
+\centering
+\caption{Comparison between Serial and Parallel Computing}
+\end{figure}
+~\\
 
 \subsection{Motivation}
 
@@ -17,6 +24,11 @@ Parallel computing, on the other hand, is clearly much more fitted for this line
 \subsection{Flynn's taxonomy on parallel architecture}
 
 Introduced in 1966, Michael J. Flynn, the author, suggested that high-speed computer can be divided into 4 main categories, based on Instruction Stream and Data Stream. Stream, as Flynn explained (1966), "refers to sequence of data or instructions as seen by the machine during the execution of the program". Flynn clarified further that Instruction Stream and Data Stream serve as a convenient baseline to classify computer organization while preventing any confusion driven by the term "parallelism". \\
+\begin{figure}[H]
+\includegraphics[width=7cm]{Flynn.png}
+\centering
+\caption{Flynn's taxonomy}
+\end{figure}
 ~\\
 %Some images to illustrate this
 The computer organization are classified as below:
@@ -75,3 +87,4 @@ While Large Scale Parallelism system relies on splitting the work and have it do
 ~\\
 Current generation multi-core CPU also support what known as thread-level parallelism. This is kind of Local Scale Parallelism that executes tasks on individual threads of the CPU. A thread is basically a distinct process with its own instruction and data, and it can represent a part of a parallel program containing multiple processes. Thread-level parallelism is represented in the form of multithreading, having multiple threads sharing the same functional units of a processor. For this reason, thread-level parallelism will increase computation performance, especially in demanding tasks that require doing multiple tasks at the same time, such as video rendering, which requires both raw computational power and multiple parallel throughputs. \\
 %image of thread level parallel
+%May be I need a section on Graphic Processing Unit?
