@@ -1,11 +1,43 @@
 \chapter{Methodology}
 
-As stated in the previous chapter, the main purpose of the intership is to investigate possible utilization of GPU parallelism within the Regional Climate Model. In order to achieve this goal, the source code of RegCm is required for analyzing the software and modify it for the demand of the intership. Thankfully, RegCM is a open-source software, a term stands for softwares that are publicly accessible and anyone can share and/or revamp it. It is publicly available at: \url{http://gforge.ictp.it/gf/project/regcm/} . \\
+Analyzing the source code of the program will give a good view of what is inside the program, and potentially find out where it is suitable for GPU parallel computation so that it can be implemented in the future. To investigate spots in RegCM that are likely to be benifitted from GPU parallelism, profiling the software to locate what part of it takes the most computation time is the initial and crucial step. Next, data dependencies needs to be detected in order avoid paralleling those section and hurts the performance of the program, or potentially break it. Finally, CPU thread-level is used to run RegCM as a proof of concept to see if there are any improvement in performance. \\
+
+\section{RegCM Installation}
+
+As stated in the previous chapter, the main purpose of the intership is to investigate possible utilization of GPU parallelism within the Regional Climate Model. In order to achieve this goal, the source code of RegCm is required for analyzing the software and modify it for the demand of the intership. Furthermore, because the cluster used in REMOSAT lab is usually busy with running simulations, it would be best if RegCM can be installed in the ICTLab for easy accessibility. \\
+~\\
+Thankfully, RegCM is a open-source software, a term stands for softwares that are publicly accessible and anyone can share and/or revamp it. It is publicly available at: \url{http://gforge.ictp.it/gf/project/regcm/} . In this internship, version 4.3.5.6 is used because it is one of the most stable version and it is being ran by the REMOSAT laboratory. \\
 ~\\
 The source code contains 3 main parts, 2 of those are for programs that pre-process the input data set and post-process the output of the simulation. The last part, and also the most important part, is the source code for RegCM, containing the main program of RegCM with its support modules. The simulation software is writen in Fortran, a programming language that convinient for numeric and scientific computing. \\
 ~\\
-Analyzing the source code of the program will give a good view of what is inside the program, and potentially find out where it is suitable for GPU parallel computation so that it can be implemented in the future. To investigate spots in RegCM that are likely to be benifitted from GPU parallelism, profiling the software to locate what part of it takes the most computation time is the initial and crucial step. Next, data dependencies needs to be detected in order avoid paralleling those section and hurts the performance of the program, or potentially break it. Finally, CPU thread-level is used to run RegCM as a proof of concept to see if there are any improvement in performance. \\
-
+Before the compilation of RegCM's source code, its prequisite software need to be installed. Those are Intel Fortran compiler, Hierarchical Data Format 5 (HDF5) and Network Common Data Form(NetCDF)-C 4 and NetCDF-Fortran 4. Moreover, for NetCDF, both C and Fortran version, to function properly, HDF5 is needed. In addition, supporting libraries, zlib and szip, are also mandatory. Finally, the Operating System used in this project is Debian, a Linux-distribution. \\
+~\\
+To start off RegCM installation process, Intel Fortran compiler needs to be installed first of all. This compiler is developed by Intel and is available in the Intel Parallel Studio XE development tools, designed specifically for High Performance Computing. This package is a commercial software, but Intel also offers free licenses for students and researchers. Simply follow the installation guide, enter a given product key, choose where to install and wait for the installer to complete. \\
+~\\
+After the installer is done, to complete the installation progress, enter the directory \verb|installation_dir/bin/| and run 3 scripts, iccvars.sh, ifortvars.sh and compilervars.sh with parameter being the current system architecture, \verb|ia32| for 32-bit systems and \verb|intel64| for 64-bit systems. For example: 
+\begin{center}
+\begin{BVerbatim}
+source compilervars.sh intel64
+\end{BVerbatim}
+\end{center}
+Doing this will export the location contains the compiler executable files to the \verb|PATH| variable, thus enable the user to run these compilers without having to type the path of the compiler everytime. Lastly, export these variables: \\
+\begin{center}
+\begin{BVerbatim}
+export CC=icc
+export FC=ifort
+\end{BVerbatim}
+\end{center}
+so that the default compiler for the system will those of Intel's. \\
+~\\
+Next, zlib and szip should be compiled and built, respectively. They are available at \url{https://zlib.net/} and \url{http://www.compressconsult.com/szip/}. In order to install these libraries, simply run the following commands
+\begin{center}
+\begin{BVerbatim}
+./configure --prefix=/directory/to/install
+make
+make install
+\end{BVerbatim}
+\end{center}
+each time for each library. The \verb|--prefix=/directory/to/install| is for installing libraries in a different folder other than the default \verb|/usr/local/bin| folder.
 Profiling the simulation\\
 OpenMP\\
 Data dependencies\\
