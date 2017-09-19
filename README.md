@@ -29,6 +29,7 @@
 
 3. Methodology
 	
+	* Install process
 	* Profiling the Simulation
 	* Determine data dependencies (unsure)
 	* OpenMP
