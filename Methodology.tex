@@ -100,11 +100,19 @@ ln -sf /RegCM-source-code-folder/bin
 \end{BVerbatim}
 \end{center}
 This link will allow the current folder to contain a reference to the \verb|bin| folder that was created earlier during the installation process. \\
-%add a paragraph about difficulty in installing the software
 ~\\
 During initial installation of the software in the internship, some difficulties was met. There was a lack of in-depth information on how to install the software and its prerequisites. The User Manual provided by the software's author did not specify what compiler should be utilized, what version of the dependencies is needed. At first, the programs was installed with standard Linux C and Fortran compilers but many errors occurred along the way. Through many trial-and-errors and with the help of the REMOSAT laboratory, RegCM was finally installed into the cluster system of USTH ICTLab, though it was very time-consuming and took the most ammount of time in the internship. Nonetheless, it was worth putting effort into to ensure a proper working environment. \\
 
 \section{Profiling RegCM}
-The first step, and arguably the most crucial step of all, is to profile the Regional Climate Model, to see which part of the program takes the most out of execution, and from there as a starting line, to dig in further into the program, repeat the process to find spots that are suitable for implementing parallelization. \\
+The first step, and arguably the most crucial step of all, is to profile the Regional Climate Model, to see which part of the program takes the most out of execution, and from there on, as a starting line, dig in further into the program, repeat the process to find spots that are suitable for implementing parallelization. Characteristic that should be on the look out are for-loops with high number of iterations and simple mathematic computation. \\
+~\\
+To profile the simulation, \\%explain the code to count the time
+~\\
+In the source code, the file named \verb|mod_regcm_interface.F90| contains the main program of RegCM, initializing the simulation, calling other subroutines from other modules for calculations. These computation of RegCM simulation can be seen in \verb|RegCM_run| subroutine, thus a good place to start. In this subroutine, there is a while-loop, running steps of simulation's duration, containing calls for computing model's tendencies, structure's manipulation, solar declination angle, new boundary conditions reading and filling boundary with input values and tendencies. Measuring the execution time of these subroutines that was called by the main program will give a general look at what takes the most time. The table below shows how the profiling turned out for different simulation's duration \\
+~\\
+%insert table when data become available
+It can be seen easily that calculating tendencies for the model takes a tremendous amount of time, occupied aroung 90\% of the whole simulation time. This is a clear sign that the subroutine responsibles for these calculations should be investigated further. \\
+~\\
+%add a paragraph or 2 about the loops in mod_tendencies, profiling them, some data
 OpenMP\\
 Data dependencies\\
