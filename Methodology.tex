@@ -1,6 +1,6 @@
 \chapter{Methodology}
 
-Analyzing the source code of the program will give a good view of what is inside the program, and potentially find out where it is suitable for GPU parallel computation so that it can be implemented in the future. To investigate spots in RegCM that are likely to be benifitted from GPU parallelism, profiling the software to locate what part of it takes the most computation time is the initial and crucial step. Next, data dependencies needs to be detected in order avoid paralleling those section and hurts the performance of the program, or potentially break it. Finally, CPU thread-level is used to run RegCM as a proof of concept to see if there are any improvement in performance. \\
+Analyzing the source code of the program will give a good view of what is inside the program, and potentially find out where it is suitable for GPU parallel computation so that it can be implemented in the future. To investigate spots in RegCM that are likely to be benifitted from GPU parallelism, profiling the software to locate what part of it takes the most computation time is the initial and crucial step. Next, data dependencies needs to be detected in order avoid paralleling those section and hurts the performance of the program, or potentially break it. Finally, CPU thread-level is used to run RegCM as a proof of concept to see if there are any improvement in performance. While the initial goal of the internship is to have a demo of RegCM running parallel on GPU, but because of the time constrain, the best can be done was to evaluate the possibility of GPU parallelization. \\
 
 \section{RegCM Installation}
 
@@ -14,7 +14,7 @@ Before the compilation of RegCM's source code, its prequisite software need to b
 ~\\
 To start off RegCM installation process, Intel Fortran compiler needs to be installed first of all. This compiler is developed by Intel and is available in the Intel Parallel Studio XE development tools, designed specifically for High Performance Computing. This package is a commercial software, but Intel also offers free licenses for students and researchers. Simply follow the installation guide, enter a given product key, choose where to install and wait for the installer to complete. \\
 ~\\
-After the installer is done, to complete the installation progress, enter the directory \verb|installation_dir/bin/| and run 3 scripts, iccvars.sh, ifortvars.sh and compilervars.sh with parameter being the current system architecture, \verb|ia32| for 32-bit systems and \verb|intel64| for 64-bit systems. For example: 
+After the installer is done, to complete the installation progress, enter the directory \\ \verb|intel_dir/bin/| and run 3 scripts, iccvars.sh, ifortvars.sh and compilervars.sh with parameter being the current system architecture, \verb|ia32| for 32-bit systems and \verb|intel64| for 64-bit systems. For example: 
 \begin{center}
 \begin{BVerbatim}
 source compilervars.sh intel64
@@ -29,7 +29,7 @@ export FC=ifort
 \end{center}
 so that the default compiler for the system will those of Intel's. \\
 ~\\
-Next, zlib and szip should be compiled and built, respectively. They are available at \url{https://zlib.net/} and \url{http://www.compressconsult.com/szip/}. In order to install these libraries, simply run the following commands
+Next, zlib and szip should be compiled and built, respectively. Both of these libraries are required for installing HDF5 and NetCDF later on. They are available at \url{https://zlib.net/} and \url{http://www.compressconsult.com/szip/}. In order to install these libraries, simply run the following commands
 \begin{center}
 \begin{BVerbatim}
 ./configure --prefix=/directory/to/install
@@ -37,7 +37,70 @@ make
 make install
 \end{BVerbatim}
 \end{center}
-each time for each library. The \verb|--prefix=/directory/to/install| is for installing libraries in a different folder other than the default \verb|/usr/local/bin| folder.
-Profiling the simulation\\
+each time for each library. The \verb|--prefix=/directory/to/install| is for installing libraries in a different folder other than the default \verb|/usr/local/| folder. \\
+~\\
+HDF5's source code can be obtained at \url{https://support.hdfgroup.org/HDF5/release/obtain5.html}. The version was used in the ICTLab's cluster was HDF5-1.8.16. After the source code was extracted from the archive, the installation progress takes 3 commands, just like with zlib or szip:
+\begin{center}
+\begin{BVerbatim}
+./configure --prefix=/directory/to/install --with-zlib=/zlib-dir
+	--with-szip=/installed/szip/dir --enable-parallel
+make
+make install
+\end{BVerbatim}
+\end{center}
+Nonetheless, it is crucial to state in the configure command where were szip and zlib installed, if they were not installed in the default folder. The \verb|--enable-parallel| paramemter will tell the configuration process to look for MPI-IO and MPI support files, which was installed previously along with Intel Parallel Studio. \\
+~\\
+To install the last prequisite, and undoubtedly the most important one, NetCDF, there are a couple of things to note. First, there are two versions of NetCDF, one using C interface and the other uses Fortran, and both are required. Second, unlike HDF5's install process where the user can state where the libraries by configuration's parameter, NetCDF requires the user to specify libraries's path to \verb|CPPFLAGS|, \verb|LDFLAGS| and \verb|LD_LIBRARY_PATH|. Source code for NetCDF is available at \url{https://www.unidata.ucar.edu/downloads/netcdf/index.jsp}. Again, the version of NetCDF-C and NetCDF-Fortran was used in this project are those that used by REMOSAT, NetCDF-C 4.4.0 and NetCDF-Fortran 4.4.3. NetCDF is installed in the following order: NetCDF-C, then NetCDF-Fortran. \\
+~\\
+To compile and build NetCDF-C, the initial step, as stated previously, libraries's path needs to be added to environement variables
+\begin{center}
+\begin{BVerbatim}
+export CXX=icpc
+export CPPFLAGS="-I/zlib-dir/inlcude -I/hdf-dir/include"
+export LDFLAGS="-L/zlib-dir/lib -L/hdf-dir/lib"
+export LD_LIBRARY_PATH=/zlib-dir/lib:/hdf-dir/lib:$LD_LIBRARY_PATH
+\end{BVerbatim}
+\end{center}
+After setting environment variables is complete, proceed to configure and install NetCDF-C
+\begin{center}
+\begin{BVerbatim}
+./configure --prefix=/directory/to/install
+make
+make install
+\end{BVerbatim}
+\end{center}
+With NetCDF-Fortran, the environment variables needs to be updated with NetCDF-C's path
+\begin{center}
+\begin{BVerbatim}
+export CPPFLAGS="-I/zlib-dir/inlcude -I/hdf-dir/include 
+	-I/netcdf-c-dir/include"
+export LDFLAGS="-L/zlib-dir/lib -L/hdf-dir/lib 
+	-L/netcdf-c-dir/lib -lnetcdf"
+export LD_LIBRARY_PATH=/netcdf-c-dir/lib:$LD_LIBRARY_PATH
+\end{BVerbatim}
+\end{center}
+Following that, start the install process, which is simillar to NetCDF-C's, and once finished, all needed compoments are installed and RegCM are ready to be configured and built. \\
+~\\
+In order to install RegCM, these compiler variables have to be exported:
+\begin{center}
+\begin{BVerbatim}
+export I_MPI_CC=icc
+export I_MPI_CXX=icpc
+export I_MPI_FC=ifort
+export I_MPI_F77=ifort
+export I_MPI_F90=ifort
+\end{BVerbatim}
+\end{center}
+Previously mentioned, RegCM has full support for Message Passing Interface, or MPI, so MPI compilers are necessary. Because the standard compiler using to build RegCM are those of Intel's, the MPI compiler are required to match those as well, or the installation process won't be successful. The installation procedure follows the above normally, though no prefix for installation folder is needed, since all the compiled binary files of RegCM are stored within the newly created \verb|bin| folder inside the source code folder. \\
+~\\
+The final step of the RegCM Installation Process is to create a working environment for RegCM. This starts with making a new folder to hold the binary files, input and output of simulations. Next, 2 more folders need to be inside the newly created folder, one to contain the pre-processed data for the input of RegCM, the other is the output directory of the simulation. Lastly, a symlink is formed to link the current folder to the bin folder of RegCM. For example:
+\begin{center}
+\begin{BVerbatim}
+ln -sf /RegCM-source-code-folder/bin
+\end{BVerbatim}
+\end{center}
+This link will allow the current folder to contain a reference to the \verb|bin| folder that was created earlier during the installation process. \\
+
+\section{Profiling RegCM}
 OpenMP\\
 Data dependencies\\
