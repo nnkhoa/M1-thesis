@@ -10,7 +10,7 @@ Thankfully, RegCM is a open-source software, a term stands for softwares that ar
 ~\\
 The source code contains 3 main parts, 2 of those are for programs that pre-process the input data set and post-process the output of the simulation. The last part, and also the most important part, is the source code for RegCM, containing the main program of RegCM with its support modules. The simulation software is writen in Fortran, a programming language that convinient for numeric and scientific computing. \\
 ~\\
-Before the compilation of RegCM's source code, its prequisite software need to be installed. Those are Intel Fortran compiler, Hierarchical Data Format 5 (HDF5) and Network Common Data Form(NetCDF)-C 4 and NetCDF-Fortran 4. Moreover, for NetCDF, both C and Fortran version, to function properly, HDF5 is needed. In addition, supporting libraries, zlib and szip, are also mandatory. Finally, the Operating System used in this project is Debian, a Linux-distribution. \\
+Before the compilation of RegCM's source code, its prerequisite software need to be installed. Those are Intel Fortran compiler, Hierarchical Data Format 5 (HDF5) and Network Common Data Form(NetCDF)-C 4 and NetCDF-Fortran 4. Moreover, for NetCDF, both C and Fortran version, to function properly, HDF5 is needed. In addition, supporting libraries, zlib and szip, are also mandatory. Finally, the Operating System used in this project is Debian, a Linux-distribution. \\
 ~\\
 To start off RegCM installation process, Intel Fortran compiler needs to be installed first of all. This compiler is developed by Intel and is available in the Intel Parallel Studio XE development tools, designed specifically for High Performance Computing. This package is a commercial software, but Intel also offers free licenses for students and researchers. Simply follow the installation guide, enter a given product key, choose where to install and wait for the installer to complete. \\
 ~\\
@@ -50,7 +50,7 @@ make install
 \end{center}
 Nonetheless, it is crucial to state in the configure command where were szip and zlib installed, if they were not installed in the default folder. The \verb|--enable-parallel| paramemter will tell the configuration process to look for MPI-IO and MPI support files, which was installed previously along with Intel Parallel Studio. \\
 ~\\
-To install the last prequisite, and undoubtedly the most important one, NetCDF, there are a couple of things to note. First, there are two versions of NetCDF, one using C interface and the other uses Fortran, and both are required. Second, unlike HDF5's install process where the user can state where the libraries by configuration's parameter, NetCDF requires the user to specify libraries's path to \verb|CPPFLAGS|, \verb|LDFLAGS| and \verb|LD_LIBRARY_PATH|. Source code for NetCDF is available at \url{https://www.unidata.ucar.edu/downloads/netcdf/index.jsp}. Again, the version of NetCDF-C and NetCDF-Fortran was used in this project are those that used by REMOSAT, NetCDF-C 4.4.0 and NetCDF-Fortran 4.4.3. NetCDF is installed in the following order: NetCDF-C, then NetCDF-Fortran. \\
+To install the last prerequisite, and undoubtedly the most important one, NetCDF, there are a couple of things to note. First, there are two versions of NetCDF, one using C interface and the other uses Fortran, and both are required. Second, unlike HDF5's install process where the user can state where the libraries by configuration's parameter, NetCDF requires the user to specify libraries's path to \verb|CPPFLAGS|, \verb|LDFLAGS| and \verb|LD_LIBRARY_PATH|. Source code for NetCDF is available at \url{https://www.unidata.ucar.edu/downloads/netcdf/index.jsp}. Again, the version of NetCDF-C and NetCDF-Fortran was used in this project are those that used by REMOSAT, NetCDF-C 4.4.0 and NetCDF-Fortran 4.4.3. NetCDF is installed in the following order: NetCDF-C, then NetCDF-Fortran. \\
 ~\\
 To compile and build NetCDF-C, the initial step, as stated previously, libraries's path needs to be added to environement variables
 \begin{center}
@@ -100,7 +100,11 @@ ln -sf /RegCM-source-code-folder/bin
 \end{BVerbatim}
 \end{center}
 This link will allow the current folder to contain a reference to the \verb|bin| folder that was created earlier during the installation process. \\
+%add a paragraph about difficulty in installing the software
+~\\
+During initial installation of the software in the internship, some difficulties was met. First, there was a lack of in-depth information on how to install the software and its prerequisites. The User Manual provided by the software's author did not specify what compiler should be utilized, what version of the dependencies is needed. At first, the programs was installed with standard Linux C and Fortran compilers. Through many trial-and-errors and with the help of the REMOSAT laboratory, RegCM was finally installed into the cluster system of USTH ICTLab, though it was very time-consuming and took the most ammount of time in the internship. Nonetheless, it was worth putting effort into to ensure a proper working environment. \\
 
 \section{Profiling RegCM}
+The first step, and arguably the most crucial step of all, is to profile the Regional Climate Model, to see which part of the program takes the most out of execution, and from there as a starting line, to dig in further into the program, repeat the process to find spots that are suitable for implementing parallelization. \\
 OpenMP\\
 Data dependencies\\
