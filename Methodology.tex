@@ -123,7 +123,7 @@ subroutine time_in_ms(rTime)
     rTime = ( rTime + values(7) ) *1e3
     !adding ms 
     rTime = rTime + values(8)
-  end subroutine time_in_ms
+ end subroutine time_in_ms
 \end{BVerbatim}
 \end{center}
 In order to get the current time in millisecond, a coversion from other time units to millisecond is needed. Under the premise that no subroutine in RegCM should take more than 24 hours for one run, there are only 3 time units that require to be converted, hour, minute, and second and add all of them up to get the final result.  \\
@@ -146,7 +146,6 @@ RegCM             & \multicolumn{2}{r}{1825874}          & \multicolumn{2}{r}{37
 \end{tabular}%
 }
 \caption{Result of profiling different subroutines in different simulation duration}
-\label{my-label}
 \end{table} 
 ~\\
 It can be seen easily that calculating tendencies for the model takes a tremendous amount of time, occupied aroung 90\% of the whole simulation time. This is a clear sign that the subroutine responsibles for these calculations should be investigated further. \\
@@ -168,17 +167,31 @@ Loop No. & Average Execution Time(ms) \\ \midrule
 \end{tabular}%
 %}
 \caption{Top 5 most time consuming for-loops in tend subroutine on average}
-\label{my-label}
 \end{table}
 ~\\
 The result shows interesting information. While these 5 for-loops are those that take the most time to execute, their average time is very small, capping at only 2.7 ms. Add in the fact that tendencies has the most performance time, these numbers mean that these loops, while big in number of iterations, take very little time to complete. \\
 ~\\
-These 5 for-loops that was shown in the result will be choosen to investigate possible data dependencies, then to try parallelize them to see if there are any improvement in performance. \\
+These 5 for-loops that was shown in the result will be choosen to investigate possible data dependencies, then to try parallelize them to see if there are any improvement in performance. However, one thing to note is that since the number of iterations is enormous, 10 results from randomly choosen iteration might be not enough to clearly asset this problem. Further and deeper inspection of profiling is needed in the future. \\
 
 \section{Investigate possible Data Dependencies}
 
-Data Dependencies means that an instruction requires data that is the result of a previous instructrion. Detecting Data Dependencies is a crucial task in implementing parallelization, since data dependencies can harm the performance of parallel computing. The outcome if Data Dependencies is not handled properly is that the parallel program will perform worse since there are parts of the program that has to wait for data to be produced by previous section, thus making parallelization useless while processor still has to schedule the work. \\
+Data Dependencies, or Data Hazards means that an instruction requires data that is the result of a previous instructrion. Detecting Data Dependencies is a crucial task in implementing parallelization, since data dependencies can harm the parallel computing's performance. The outcome if Data Dependencies is not handled properly is that the parallel program will perform worse since there are parts of the program that has to wait for data to be produced by previous section, thus making parallelization useless while processor still has to schedule the work. \\
 ~\\
+After examined the source code of the 5 fore-mentioned for-loops, it appeared to the naked eye that none of them has any data dependencies. All the loops seem to not using any input that relies on the result produced in previous iterations. However, to be fully confident that there exists no data hazards, inspecting the source code is insufficient, especially with code from other authors since the one doing code's analysis often is foreign to the source code and cannot be sure of the intention of the author. Investigation of this subject will be clearer once these for-loops are parallelize using OpenMP, which will be cover in the next section. This action will allow the observation of each loop's behavior to draw a better conclusion. \\
 
-OpenMP\\
-Data dependencies\\
+\section{Open Multi-Processing - OpenMP}
+
+Open Multi-Processing, or OpenMP for short, is an API(Application Programming Interface) for C/C++ and Fortran, contains compiler directives, libraries routine and environment variables that enable high-level parallelism.The selling point of OpenMP is that while most of the time, without it, programmers struggle to distribute workload in processors, and to solve the problem of non-standardization of processors's clock speed, the API simplify these programming processes, giving specific instructions automatically to the processors, thus reduced the work need to be done when parallelizing a program. Because of its ease of parallel implementation, existing serialize code can be parallelize with little effort to test parallel compatability of sections of code. \\
+~\\
+%add OMP directive, and use compiler flag and link library
+To use OpenMP Parallelization API, simply add the OpenMP directives to sections that need to be parallelize. In this project, the 2 directives that were used are: 
+\begin{center}
+\begin{BVerbatim}
+!$OMP PARALLEL DO
+!$OMP END PARALLEL DO
+\end{BVerbatim}
+\end{center}
+These 2 directives were put, respectively, at the beginning and the end of each for-loop, telling the compiler that these sections are to be ran in parallel. Lastly, to compile code that use OpenMP, add the compiler flag and link the library of OpenMP when compiling the code. Depends on the compiler, the flag can varies. Here, the OpenMP flag for Intel compiler is \verb|-fopenmp|. Linking OpenMP library are more uniform by adding \verb|-liopm5| before compilation. \\
+~\\
+%talk about those loops that failed
+It is interesting to note that adding OpenMP directives to loop number 19 and number 26 in \verb|tend| subroutine, RegCM will crash and generate fatal error. It is suspected that these 2 loops has data dependencies of their own that causes the crash to happen. For further testing of potential parallelization of RegCM, the 2 mentioned loops were removed from the scope of the test to ensure RegCM functions normally. \\
