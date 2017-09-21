@@ -8,7 +8,7 @@ As stated in the previous chapter, the main purpose of the intership is to inves
 ~\\
 Thankfully, RegCM is a open-source software, a term stands for softwares that are publicly accessible and anyone can share and/or revamp it. It is publicly available at: \url{http://gforge.ictp.it/gf/project/regcm/} . In this internship, version 4.3.5.6 is used because it is one of the most stable version and it is being ran by the REMOSAT laboratory. \\
 ~\\
-The source code contains 3 main parts, 2 of those are for programs that pre-process the input data set and post-process the output of the simulation. The last part, and also the most important part, is the source code for RegCM, containing the main program of RegCM with its support modules. The simulation software is writen in Fortran, a programming language that convinient for numeric and scientific computing. \\
+The source code contains 3 main parts, 2 of those are for programs that pre-process the input data set and post-process the output of the simulation. The last part, and also the most important part, is the source code for RegCM, containing the main program of RegCM with its support modules. The simulation software is written in Fortran, a programming language that convinient for numeric and scientific computing. \\
 ~\\
 Before the compilation of RegCM's source code, its prerequisite software need to be installed. Those are Intel Fortran compiler, Hierarchical Data Format 5 (HDF5) and Network Common Data Form(NetCDF)-C 4 and NetCDF-Fortran 4. Moreover, for NetCDF, both C and Fortran version, to function properly, HDF5 is needed. In addition, supporting libraries, zlib and szip, are also mandatory. Finally, the Operating System used in this project is Debian, a Linux-distribution. \\
 ~\\
@@ -106,13 +106,79 @@ During initial installation of the software in the internship, some difficulties
 \section{Profiling RegCM}
 The first step, and arguably the most crucial step of all, is to profile the Regional Climate Model, to see which part of the program takes the most out of execution, and from there on, as a starting line, dig in further into the program, repeat the process to find spots that are suitable for implementing parallelization. Characteristic that should be on the look out are for-loops with high number of iterations and simple mathematic computation. \\
 ~\\
-To profile the simulation, \\%explain the code to count the time
+To profile the simulation, a subroutine is written to record the current in millisecond and put it at just before the start and right after the end of a designated section of code that need to be profiled to note down the start time and finish time of that section. The time duration it takes to execute that section is the subtraction of the two above values. \\
 ~\\
-In the source code, the file named \verb|mod_regcm_interface.F90| contains the main program of RegCM, initializing the simulation, calling other subroutines from other modules for calculations. These computation of RegCM simulation can be seen in \verb|RegCM_run| subroutine, thus a good place to start. In this subroutine, there is a while-loop, running steps of simulation's duration, containing calls for computing model's tendencies, structure's manipulation, solar declination angle, new boundary conditions reading and filling boundary with input values and tendencies. Measuring the execution time of these subroutines that was called by the main program will give a general look at what takes the most time. The table below shows how the profiling turned out for different simulation's duration \\
+Fortran provides a subroutine to retrieve information on computer's date and time in the form of an array, containing data on current year, month, date, time zone, hour, minute, second and millisecond. The subroutine is written as follow:
+\begin{center}
+\begin{BVerbatim}
+subroutine time_in_ms(rTime)
+    integer(ik8) :: values(8)
+    real(rk16) :: rTime
+    call date_and_time(values=values)
+    !Hours to minutes  
+    rTime = ( values(5) ) * 60
+    !Minutes to Second
+    rTime = ( rTime + values(6) ) *60
+    !Second to ms 
+    rTime = ( rTime + values(7) ) *1e3
+    !adding ms 
+    rTime = rTime + values(8)
+  end subroutine time_in_ms
+\end{BVerbatim}
+\end{center}
+In order to get the current time in millisecond, a coversion from other time units to millisecond is needed. Under the premise that no subroutine in RegCM should take more than 24 hours for one run, there are only 3 time units that require to be converted, hour, minute, and second and add all of them up to get the final result.  \\
 ~\\
-%insert table when data become available
+In the source code, the file named \verb|mod_regcm_interface.F90| contains the main program of RegCM, initializing the simulation, calling other subroutines from other modules for calculations. These computation of RegCM simulation can be seen in \verb|RegCM_run| subroutine, thus a good place to start. In this subroutine, there is a while-loop, running steps of simulation's duration, containing calls for computing model's tendencies, structure's manipulation, solar declination angle, new boundary conditions reading and filling boundary with input values and tendencies. Measuring the execution time of these subroutines that was called by the main program will give a general look at what takes the most time. The table below shows how the profiling turned out for different simulation's duration: \\
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\multirow{2}{*}{} & \multicolumn{2}{c}{2 months}         & \multicolumn{2}{c}{4 months}         & \multicolumn{2}{c}{6 months}         & \multicolumn{2}{c}{8 months}         \\ \cmidrule(l){2-9} 
+                  & Total Exe. Time(ms) & Percentage(\%) & Total Exe. Time(ms) & Percentage(\%) & Total Exe. Time(ms) & Percentage(\%) & Total Exe. Time(ms) & Percentage(\%) \\ \cmidrule(r){1-1}
+Tendencies        & 1723176             & 94.38          & 3557137             & 94.39          & 5379873             & 94.39          & 7222206             & 94.38          \\
+Split Mode        & 92382               & 5.06           & 188920              & 5.01           & 286476              & 5.03           & 384908              & 5.03           \\
+Solar             & 1                   & 5.48E-05       & 5                   & 1.33E-04       & 6                   & 1.05E-04       & 8                   & 1.05E-04       \\
+New Boundary      & 523                 & 0.03           & 1159                & 0.03           & 1718                & 0.03           & 2352                & 0.03           \\
+Fill Boundary     & 1751                & 0.10           & 16021               & 0.43           & 23906               & 0.42           & 32484               & 0.42           \\
+Misc.             & 8041                & 0.44           & 5167                & 0.14           & 7832                & 0.14           & 10397               & 0.14           \\
+RegCM             & \multicolumn{2}{r}{1825874}          & \multicolumn{2}{r}{3768409}          & \multicolumn{2}{r}{5699811}          & \multicolumn{2}{r}{7652355}          \\ \bottomrule
+\end{tabular}%
+}
+\caption{Result of profiling different subroutines in different simulation duration}
+\label{my-label}
+\end{table} 
+~\\
 It can be seen easily that calculating tendencies for the model takes a tremendous amount of time, occupied aroung 90\% of the whole simulation time. This is a clear sign that the subroutine responsibles for these calculations should be investigated further. \\
 ~\\
-%add a paragraph or 2 about the loops in mod_tendencies, profiling them, some data
+Inside \verb|tend| subroutine of \verb|mod_tendency.F90| file, which handle the model's tendencies calculation, there are 70 main for-loops, all of which are nested with other different for-loops. These main for-loops will be the focus of profiling further \verb|tend| subroutine, as they fit the above wanted characteristics. Again, the profiling process is done much like the same with the first one. \\
+~\\
+However, things are a little differnet in this case because of 2 key reasons. First, the \verb|tend| subroutine is looped thousand of time, based on the model's simulation time, thus generates lots of data when logging to see the execution time of the loops. Second, there are some loops in this subroutine that are not executed in the process, one may execute in an iteration of the program while not being touched in other iterations. Because of this, it is hard to keep track of all these for-loops, in which knowing when they will occur in the massive amounts simulation's iterations. In order to overcome this problem, 10 profiling results belong to 10 iterations of RegCM will be choosen randomly, and the average execution time of each for-loops inside \verb|tend| will be calculated based on the chosen 10 to see which take the most time. Below are the result: \\
+\begin{table}[H]
+\centering
+%\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}rr@{}}
+\toprule
+Loop No. & Average Execution Time(ms) \\ \midrule
+48       & 2.7                        \\
+60       & 1.4                        \\
+52       & 1.3                        \\
+19       & 0.7                        \\
+26       & 0.7                        \\ \bottomrule
+\end{tabular}%
+%}
+\caption{Top 5 most time consuming for-loops in tend subroutine on average}
+\label{my-label}
+\end{table}
+~\\
+The result shows interesting information. While these 5 for-loops are those that take the most time to execute, their average time is very small, capping at only 2.7 ms. Add in the fact that tendencies has the most performance time, these numbers mean that these loops, while big in number of iterations, take very little time to complete. \\
+~\\
+These 5 for-loops that was shown in the result will be choosen to investigate possible data dependencies, then to try parallelize them to see if there are any improvement in performance. \\
+
+\section{Investigate possible Data Dependencies}
+
+Data Dependencies means that an instruction requires data that is the result of a previous instructrion. Detecting Data Dependencies is a crucial task in implementing parallelization, since data dependencies can harm the performance of parallel computing. The outcome if Data Dependencies is not handled properly is that the parallel program will perform worse since there are parts of the program that has to wait for data to be produced by previous section, thus making parallelization useless while processor still has to schedule the work. \\
+~\\
+
 OpenMP\\
 Data dependencies\\
