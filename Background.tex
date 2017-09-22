@@ -89,23 +89,28 @@ Being one of the most powerful and flexible research tools to date, HPC systems 
 \subsection{Cluster Computing System}
 
 Cluster computing system is best described as a combination of stand-alone computers/workstations connected to each other locally via local network or internetwork to act as a single computer. Each machine in the Cluster system is considered as a node, having its own CPUs, whether it is single-core or multi-core, Memory, Network Interface hardware and other components. A cluster usually has 2 or more nodes integrated and can have shared storage for easy data accessing. To exchange data between with each other, nodes are connected to High Performance Network/Switch, for example Gigabit Ethernet, and the Network Interface hardwares are in charge of sending and receiving node's data. Cluster computing is also referred to as High Performance Distributed computing. \\
-~\\
 % Illustration here
+\begin{figure}[H]
+\includegraphics[width=12cm]{cluster.png}
+\centering
+\caption{Example of Cluster Computing Systems}
+\end{figure}
 Introduced by IBM in the 1960s as a concept, Cluster computer has exploded into the scene later down the line in the 1980s with the rise of current-time trends: high-performance microprocessors, high-speed network, standard tools for high performance distributed computing, and the increase in performance over price ratio in commodity computers components. As the technology has gotten more advanced as time goes, high-performance computer parts are readily available with fairly affordable price for their power, thus making Cluster computing systems that are built using off-the-shelf components an alternative to supercomputer, becoming an orthodox for high-performance, wide-throughput, readily-available parallel and distributed computing platform. \\
 
 \subsection{Grid Computing System}
 
 Grid computing gives an impression of simple and manageable yet very powerful virtual computer while in fact, Grid is a network of computers coupled together. Unlike Cluster computers, which are locally connected independent computers, Grid Computing systems is a distributed computing infrastructure on a larger scale, not limited to local network or internetwork. Typically, Grid Computation's scale can be of that of geographical, in which each computer system that is part of the grid is placed in a different part of a city, country or even the world. \\
 ~\\
-% Illustration here
 Beside the fore-mentioned motivation of the need for parallel performance, Grid Computing also fulfills the purpose of removing the geographic barriers for collaboration on large-scale researches globally with minimum delay. Grid Computing provides means of managing distributed data access, processing data and storage, thus allowing data to be used by wider audiences. Sharing data is not the only thing Grid is capable of but also sharing computation resource, allow users to conduct experiments that are otherwise inefficient and impossible without it. \\
 
 
 \section{Local Scale Parallelism}
 
 While Large Scale Parallelism system relies on splitting the work and have it done on many computers or processors, may it be single-core or multi-core, Local Scale Parallelism, on the other hand, depends entirely on the nature of the modern multi-core CPU. A multi-core CPU, as the name suggests, consists of 2 or more individual physical processing units, or cores, in one single package. These cores are coupled with each other by connecting to the bus of a shared cache memory within the CPU. Essentially, multicore CPU's architecture is designed following the MIMD architecture. Execution of multiple instructions at once is possible by feeding them into different cores, and each core, as a distinct processing unit, can handle its own set of data different from that of other cores. \\
-%image of multi-core parallel
-~\\
+\begin{figure}[H]
+\includegraphics[width=11cm]{multi-core.png}
+\centering
+\caption{Example of a 4-core Processor}
+\end{figure}
 Current generation multi-core CPU also support what known as thread-level parallelism. This is kind of Local Scale Parallelism that executes tasks on individual threads of the CPU. A thread is basically a distinct process with its own instruction and data, and it can represent a part of a parallel program containing multiple processes. Thread-level parallelism is represented in the form of multithreading, having multiple threads sharing the same functional units of a processor. For this reason, thread-level parallelism will increase computation performance, especially in demanding tasks that require doing multiple tasks at the same time, such as video rendering, which requires both raw computational power and multiple parallel throughputs. \\
-%image of thread level parallel
-%May be I need a section on Graphic Processing Unit?
+%image of thread level parallel ?
