@@ -1,5 +1,5 @@
 *.aux
-*.bib
+*.bib.bak
 *.idx
 *.lof
 *.log
