@@ -1,12 +1,5 @@
 \chapter{Conclusion}
 
-
-You can recall the problematic of your internship and explain if you have solved all the problem or not. \\
-
-Recall the methods used and your contribution.\\
-
-Recall the results obtained and explain the quality of your results in comparison with the state of the art.\\
-
-
-Give some perspectives of your work.
-
+The internship focused on finding proof of concept for parallelizing the Regional Climate Model to enhance its execution, using OpenMP API. However, during the limited period of the internship, no improvement using parallelism was found, but instead parallel slowdown was experienced due to data dependencies and overhead generated from task scheduling for parallelism. However, since this is only the proof of concept for using GPU parallelism later down the line, there are still much room for research and improvement to work with.\\
+~\\
+As for future work, further and deeper investigation of RegCM is required in order to have a clearer overview of the simulation software, and a better understanding on how the software works. Following that, it will be exciting to develop a demo runnable of GPU Parallelism RegCM using CUDA Fortran that could actually have improvement in performance compare to the currently stable version.
